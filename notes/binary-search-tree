@@ -1,0 +1,40 @@
+二叉搜索树 (BST) 专题
+
+一、BST 核心定义
+对于任意节点，**左子树所有节点值 < 根节点值 < 右子树所有节点值**。
+
+二、BST 的三大性质
+| 性质 | 说明 | 对应题目 |
+|------|------|----------|
+| 有序性 | 中序遍历得到升序序列 | 98. 验证 BST |
+| 查找效率 | 平均 O(log n)，每次砍掉一半 | 700. BST 搜索 |
+| 插入/删除 | 利用大小关系找到位置 | 701/450 |
+
+三、验证 BST（两种方法）
+方法一：中序遍历
+```python
+prev = float('-inf')
+def inorder(node):
+    if not node: return True
+    if not inorder(node.left): return False
+    if node.val <= prev: return False
+    prev = node.val
+    return inorder(node.right)
+
+方法二：递归传范围
+python
+def dfs(node, low, high):
+    if not node: return True
+    if node.val <= low or node.val >= high: return False
+    return dfs(node.left, low, node.val) and dfs(node.right, node.val, high)
+
+四、BST 操作速查
+题号	题目	核心技巧
+98	验证 BST	中序 / 传范围
+700	BST 搜索	二分剪枝，往左/往右
+230	第K小元素	中序遍历 + 计数器
+701	BST 插入	搜索 + 空位挂载
+450	BST 删除	三种情况：叶子/单子/双子（找后继）
+五、BST 删除口诀
+
+无子直接删，一子换上来，两子找后继：右边一直往左走，替换值后删旧位。
